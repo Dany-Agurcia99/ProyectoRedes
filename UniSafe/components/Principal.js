@@ -1,35 +1,95 @@
-import { View, Text, Box, Button } from 'react-native'
-import React from 'react'
+import { View, Text, Box, StyleSheet, SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { BottomSheet, Button, ListItem } from "react-native-elements";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+
 import tw from "twrnc";
-import Mapa from "../Imagenes/mapa.jpg"
+import Mapa from "../Imagenes/mapa.jpg";
 
 export default function Principal() {
-    return (
-        <View style={tw`flex bg-black h-full`}>
-            <View style={tw`flex-1 flex-row w-full h-full bg-orange-100 justify-center items-center`}>
-                {/*FLOATING BOX*/}
-                <View style={tw`self-end w-10/12 h-3/12 bg-slate-900 mb-5 rounded-3xl`}>
+  const [isVisible, setIsVisible] = useState(false);
+  const list = [
+    { title: "Marcar lugar" },
+    { title: "Notificaciones" },
+    {
+      title: "Volver a mapa",
+      containerStyle: { backgroundColor: "red" },
+      titleStyle: { color: "white" },
+      onPress: () => setIsVisible(false),
+    },
+  ];
 
-                </View>
-            </View>
-            {/*NAVBAR*/}
-            <View style={tw`flex-initial flex-row h-14 w-5/6 mt-14 absolute self-center`}>
-                <View style={tw`flex-none bg-slate-900 w-1/6 items-center justify-center rounded-bl-2xl rounded-tl-2xl`}>
-                    <Text style={tw`text-xl font-bold text-white`}>
-                        ...
-                    </Text>
-                </View>
-                <View style={tw`flex-1 bg-slate-900 w-4/6 items-center justify-center`}>
-                    <Text style={tw`text-2xl font-bold text-white`}>
-                        Unitec
-                    </Text>
-                </View>
-                <View style={tw`flex-initial bg-slate-900 w-1/6 items-center justify-center rounded-br-2xl rounded-tr-2xl pb-2`}>
-                    <Text style={tw`text-xl font-bold text-white`}>
-                        ...
-                    </Text>
-                </View>
-            </View>
+  let location = {
+    latitude: 23.259933,
+    longitude: 77.412613,
+    latitudeDelta: 0.009,
+    longitudeDelta: 0.009,
+  };
+
+  return (
+    <View style={tw`flex bg-black h-full`}>
+      <View
+        style={tw`flex-1 flex-row w-full h-full bg-white justify-center items-center`}
+      >
+        {/*FLOATING BOX*/}
+        <SafeAreaView style={tw`self-end w-5/12 h-3/25`}>
+          <SafeAreaProvider>
+            <Button
+              title="Ver opciones"
+              onPress={() => setIsVisible(true)}
+              buttonStyle={tw`bg-slate-900 mb-5 rounded-3xl`}
+            />
+            <BottomSheet modalProps={{}} isVisible={isVisible}>
+              {list.map((l, i) => (
+                <ListItem
+                  key={i}
+                  containerStyle={l.containerStyle}
+                  onPress={l.onPress}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title style={l.titleStyle}>
+                      {l.title}
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
+              ))}
+            </BottomSheet>
+          </SafeAreaProvider>
+        </SafeAreaView>
+      </View>
+      {/*NAVBAR*/}
+      <View
+        style={tw`flex-initial flex-row h-14 w-5/6 mt-14 absolute self-center`}
+      >
+        <View
+          style={tw`flex-1 bg-slate-900 w-4/6 items-center justify-center rounded-2xl`}
+        >
+          <Text style={tw`text-2xl font-bold text-white`}>Unitec</Text>
         </View>
-    )
+      </View>
+      <MapView
+        style={{ position:'absolute', top:0, left:0, right:0, bottom: 0 }}
+        provider={PROVIDER_GOOGLE}
+        region={location}
+        showsUserLocation
+      />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  map: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+});
