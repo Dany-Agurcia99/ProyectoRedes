@@ -21,8 +21,8 @@ export default function Principal() {
   ];
 
   let location = {
-    latitude: 23.259933,
-    longitude: 77.412613,
+    latitude: 14.0483681,
+    longitude: -87.1743247,
     latitudeDelta: 0.009,
     longitudeDelta: 0.009,
   };
@@ -33,13 +33,27 @@ export default function Principal() {
         style={tw`flex-1 flex-row w-full h-full bg-white justify-center items-center`}
       >
         {/*FLOATING BOX*/}
-        <SafeAreaView style={tw`self-end w-5/12 h-3/25`}>
+        <MapView
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          provider={PROVIDER_GOOGLE}
+          region={location}
+          mapType='satellite'
+          showsUserLocation
+        />
+        <SafeAreaView style={tw`self-end w-5/12 h-3/30`}>
           <SafeAreaProvider>
             <Button
               title="Ver opciones"
               onPress={() => setIsVisible(true)}
               buttonStyle={tw`bg-slate-900 mb-5 rounded-3xl`}
             />
+
             <BottomSheet modalProps={{}} isVisible={isVisible}>
               {list.map((l, i) => (
                 <ListItem
@@ -68,12 +82,6 @@ export default function Principal() {
           <Text style={tw`text-2xl font-bold text-white`}>Unitec</Text>
         </View>
       </View>
-      <MapView
-        style={{ position:'absolute', top:0, left:0, right:0, bottom: 0 }}
-        provider={PROVIDER_GOOGLE}
-        region={location}
-        showsUserLocation
-      />
     </View>
   );
 }
