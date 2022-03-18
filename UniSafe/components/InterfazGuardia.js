@@ -1,8 +1,9 @@
-import { View, Text, Box, StyleSheet, SafeAreaView, Alert } from "react-native";
+import { View, Text, Box, StyleSheet, SafeAreaView } from "react-native";
 import React, { useState } from "react";
 import { BottomSheet, Button, ListItem } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+
 import tw from "twrnc";
 import Mapa from "../Imagenes/mapa.jpg";
 
@@ -24,32 +25,9 @@ export default function Principal() {
     latitudeDelta: 0.009,
     longitudeDelta: 0.009,
   };
-  const [markerLocation, setMarkerLocation] = useState("");
-  const [marker, setMarker] = useState([
-    {
-      latitude: "hols",
-      longitude: "hol",
-    },
-  ]);
-  let mark = {
-    latitude: "",
-    longitude: "",
-  };
-
-  const handleNewMarker = (coordinate) => {
-    mark.latitude = coordinate.latitude;
-    mark.longitude = coordinate.longitude;
-    const newList = marker.filter(
-      (item) =>
-        item.longitude !== coordinate.longitude &&
-        item.latitude !== coordinate.latitude
-    );
-    if (newList.length < marker.length) {
-      setMarker(newList);
-    } else {
-      setMarker([...marker, mark]);
-    }
-  };
+  const onLocationSelect = (e) => {
+    alert(e.nativeEvent.coordinate);
+  }
   return (
     <View style={tw`flex bg-black h-full`}>
       <View
@@ -66,22 +44,11 @@ export default function Principal() {
           }}
           provider={PROVIDER_GOOGLE}
           region={location}
-          mapType="hybrid"
+          mapType='hybrid'
           showsUserLocation
-          onPress={(e) => handleNewMarker(e.nativeEvent.coordinate)}
-          onLongPress={(e) => handleMarkerErase(e.nativeEvent.coordinate)}
-        >
-          {marker.length > 0 &&
-            marker.map((m) => {
-              return (
-                <Marker
-                  coordinate={{ latitude: m.latitude, longitude: m.longitude }}
-                  key={Math.random().toString()}
-                />
-              );
-            })}
-          <Marker></Marker>
-        </MapView>
+          onPress={onLocationSelect}
+        />
+
         <SafeAreaView style={tw`self-end w-5/12 h-3/30`}>
           <SafeAreaProvider>
             <Button
@@ -121,3 +88,4 @@ export default function Principal() {
     </View>
   );
 }
+
