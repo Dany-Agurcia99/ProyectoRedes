@@ -48,6 +48,7 @@ export default function Principal() {
           showsUserLocation
           onPress={onLocationSelect}
         />
+        
 
         <SafeAreaView style={tw`self-end w-5/12 h-3/30`}>
           <SafeAreaProvider>
