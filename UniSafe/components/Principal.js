@@ -41,90 +41,150 @@ const DismissKeyboard = ({ children }) => (
 
 export default function Principal() {
   const [selectedValue, setSelectedValue] = useState("java");
-  const [number, onChangeNumber] = useState(null);
+  const [number, onChangeNumber] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   let mark = {
     latitude: "",
     longitude: "",
+    Mensaje: "",
   };
+  const [marker, setMarker] = useState([
+    {
+      latitude: "lt",
+      longitude: "lg",
+      Mensaje: "",
+    },
+  ]);
   const marcar = () => {
     setModalVisible(true);
     setIsVisible(false);
   };
+  const on_Ok_Alert = () => {
+    setModalVisible(false);
+    onChangeNumber("");
+  }
   const reportar = () => {
+    let lugarAlerta = "";
     if (selectedValue == "Reczen") {
       mark.latitude = 14.047690906785062;
       mark.longitude = -87.17439875006676;
+      mark.Mensaje = number;
+      lugarAlerta = "Reczen";
       setMarker([...marker, mark]);
     } else if (selectedValue == "Ed1") {
       mark.latitude = 14.049476193599759;
       mark.longitude = -87.17335302382708;
+      mark.Mensaje = number;
+      lugarAlerta = "Edificio 1";
       setMarker([...marker, mark]);
     } else if (selectedValue == "Ed2") {
       mark.latitude = 14.049276817205618;
       mark.longitude = -87.17330977320671;
+      mark.Mensaje = number;
+      lugarAlerta = "Edificio 2";
       setMarker([...marker, mark]);
     } else if (selectedValue == "Ed3") {
       mark.latitude = 14.049070935689828;
       mark.longitude = -87.17324741184711;
+      mark.Mensaje = number;
+      lugarAlerta = "Edificio 3";
       setMarker([...marker, mark]);
     } else if (selectedValue == "crai") {
       mark.latitude = 14.049245593480533;
       mark.longitude = -87.17373054474592;
+      mark.Mensaje = number;
+      lugarAlerta = "Crai";
       setMarker([...marker, mark]);
     } else if (selectedValue == "espresso") {
       mark.latitude = 14.04896132728758;
       mark.longitude = -87.17426396906376;
+      mark.Mensaje = number;
+      lugarAlerta = "Espresso";
       setMarker([...marker, mark]);
     } else if (selectedValue == "pcrai") {
-      mark.latitude = 14.049477169340234;
-      mark.longitude = -87.1741757914424;
+      mark.latitude = 14.04947001390987;
+      mark.longitude = -87.17400915920734;
+      lugarAlerta = "Parqueo Crai";
+      mark.Mensaje = number;
       setMarker([...marker, mark]);
     } else if (selectedValue == "cati") {
       mark.latitude = 14.048091288405574;
       mark.longitude = -87.17371378093958;
+      mark.Mensaje = number;
+      lugarAlerta = "Cafetería/Cati";
       setMarker([...marker, mark]);
     } else if (selectedValue == "Ed5") {
       mark.latitude = 14.04837913341098;
       mark.longitude = -87.17360984534025;
+      mark.Mensaje = number;
+      lugarAlerta = "Edificio 5";
       setMarker([...marker, mark]);
     } else if (selectedValue == "poli") {
       mark.latitude = 14.04797907754274;
       mark.longitude = -87.17434175312519;
+      mark.Mensaje = number;
+      lugarAlerta = "Polideportivo";
       setMarker([...marker, mark]);
     } else if (selectedValue == "gamer") {
       mark.latitude = 14.047765388877956;
       mark.longitude = -87.17442255467176;
+      mark.Mensaje = number;
+      lugarAlerta = "GameRoom";
       setMarker([...marker, mark]);
     } else if (selectedValue == "musicr") {
       mark.latitude = 14.047609269179441;
       mark.longitude = -87.17446312308311;
+      mark.Mensaje = number;
+      lugarAlerta = "MusicRoom";
       setMarker([...marker, mark]);
     } else if (selectedValue == "deck") {
       mark.latitude = 14.04829294257161;
       mark.longitude = -87.17487417161465;
+      mark.Mensaje = number;
+      lugarAlerta = "Deck";
       setMarker([...marker, mark]);
     } else if (selectedValue == "pisc") {
       mark.latitude = 14.048613312131485;
       mark.longitude = -87.17507567256689;
+      mark.Mensaje = number;
+      lugarAlerta = "Piscina";
       setMarker([...marker, mark]);
     } else if (selectedValue == "cf7") {
       mark.latitude = 14.047383871176955;
       mark.longitude = -87.17533718794584;
+      mark.Mensaje = number;
+      lugarAlerta = "Cancha";
       setMarker([...marker, mark]);
     } else if (selectedValue == "fmedicina") {
-      mark.latitude = 14.047254746968799;
-      mark.longitude = -87.17465188354254;
+      mark.latitude = 14.047170832456954;
+      mark.longitude = -87.17465858906507;
+      mark.Mensaje = number;
+      lugarAlerta = "Facultad de medicina";
       setMarker([...marker, mark]);
     }
+    Alert.alert(
+      "Usted ha marcado",
+      lugarAlerta,
+      [
+        { text: "OK", onPress: () => on_Ok_Alert() }
+      ]
+    );
+
   };
   const list = [
-    { title: "Marcar lugar", onPress: () => marcar() },
-    { title: "Notificaciones" },
+    {
+      title: "Marcar lugar", onPress: () => marcar(),
+      containerStyle: { borderRadius: "13", backgroundColor: "#0f172a"},
+      titleStyle: { color: "white" },
+    },
+    {
+      title: "Notificaciones",
+      containerStyle: { borderRadius: "13" },
+    },
     {
       title: "Volver a mapa",
-      containerStyle: { backgroundColor: "red" },
+      containerStyle: { backgroundColor: "red", borderRadius: "13" },
       titleStyle: { color: "white" },
       onPress: () => setIsVisible(false),
     },
@@ -134,13 +194,7 @@ export default function Principal() {
     longitude: -87.1743247,
     latitudeDelta: 0.005,
   };
-  const [markerLocation, setMarkerLocation] = useState("");
-  const [marker, setMarker] = useState([
-    {
-      latitude: "lt",
-      longitude: "lg",
-    },
-  ]);
+  
   const handleNewMarker = (coordinate) => {
     mark.latitude = coordinate.latitude;
     mark.longitude = coordinate.longitude;
@@ -149,13 +203,8 @@ export default function Principal() {
         item.longitude !== coordinate.longitude &&
         item.latitude !== coordinate.latitude
     );
-    if (newList.length < marker.length) {
-      setMarker(newList);
-    } else {
-      setMarker([...marker, mark]);
-    }
+    setMarker(newList);
     console.log(marker);
-    //location.latitudeDelta = coordinate.latituFdeDelta;
   };
   return (
     <View style={tw`flex bg-black h-full`}>
@@ -175,14 +224,15 @@ export default function Principal() {
           region={location}
           mapType="hybrid"
           showsUserLocation
-          onPress={(e) => handleNewMarker(e.nativeEvent.coordinate)}
         >
+          
           {marker.length > 0 &&
             marker.map((m) => {
               return (
                 <Marker
                   coordinate={{ latitude: m.latitude, longitude: m.longitude }}
                   key={Math.random().toString()}
+                  onPress={(e) => handleNewMarker(e.nativeEvent.coordinate)}
                 >
                   <StyledMarker />
                 </Marker>
