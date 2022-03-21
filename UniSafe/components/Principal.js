@@ -232,7 +232,6 @@ export default function Principal() {
                 <Marker
                   coordinate={{ latitude: m.latitude, longitude: m.longitude }}
                   key={Math.random().toString()}
-                  onPress={(e) => handleNewMarker(e.nativeEvent.coordinate)}
                 >
                   <StyledMarker />
                 </Marker>
