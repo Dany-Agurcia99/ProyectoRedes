@@ -18,6 +18,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import {doc, setDoc} from "firebase/firestore";
 
 const StyledMarker = () => (
   <View
@@ -163,6 +164,15 @@ export default function Principal() {
       lugarAlerta = "Facultad de medicina";
       setMarker([...marker, mark]);
     }
+
+      setDoc(doc(db, "Alertas"), {
+      Mensaje: mark.Mensaje,
+      Zona: lugarAlerta,
+      Coordenadas: new firebase.firestore.GeoPoint(latitude, longitude),
+      Activa: true
+    });
+
+
     Alert.alert(
       "Usted ha marcado",
       lugarAlerta,

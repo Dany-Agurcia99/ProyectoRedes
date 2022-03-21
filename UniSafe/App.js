@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Loading from "./components/Loading";
 import Principal from "./components/Principal";
 import Login from  "./components/Login";
+import InterfazGuardia from  "./components/InterfazGuardia";
 
 
 const Stack = createStackNavigator();
@@ -27,7 +28,10 @@ function NavStack(){
         component={Loading} 
       />
 
-      
+      <Stack.Screen 
+        name="InterfazGuardia" 
+        component={InterfazGuardia} 
+      />
 
     </Stack.Navigator>
 

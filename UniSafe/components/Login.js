@@ -5,6 +5,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 //import { NavigationContainer } from '@react-navigation/native';
 //import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import tw from "twrnc";
+import { NavigationEvents } from 'react-navigation';
+import { useNavigationBuilder } from '@react-navigation/native';
 
 function Login({ navigation }){
 
@@ -12,6 +14,8 @@ function Login({ navigation }){
   
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [logedStudent, setLogedStudent] = useState(false);
+  const [logedGuard, setLogedGuard] = useState(false);
 
 
   const autenticacion = async () => {
@@ -19,14 +23,27 @@ function Login({ navigation }){
     signInWithEmailAndPassword(auth, user, password)
       .then((userCredential) => {
         const user = userCredential.user
-        console.log("Signed in")
-        navigation.navigate('Loading');
+        console.log("Signed in");
+        //console.log(user);
+        
+        if(user.email=="alumno@gmail.com"){
+          navigation.navigate("Principal");
+        }
+        else if (user.email=="seguridad@gmail.com"){
+          navigation.navigate("InterfazGuardia");
+        }
+        else{
+          navigation.navigate("Loading");
+
+        }
+        
       })
       .catch((error) => {
         console.log("Not signed in")
       });
   }
 
+  
 
   return (
     <View style={tw`bg-slate-900 h-full w-full items-center `}>
@@ -43,7 +60,10 @@ function Login({ navigation }){
           onChangeText={newText => setPassword(newText)}
           defaultValue={password}
         />
-        <Pressable style={tw`w-20 h-10 bg-slate-800 items-center rounded-lg mt-3 hover:bg-slate-600`} onPress={autenticacion}>
+        <Pressable style={tw`w-20 h-10 bg-slate-800 items-center rounded-lg mt-3 hover:bg-slate-600`} 
+          onPress={autenticacion}
+          
+        >
           <Text style={tw`text-white mt-3`}> Login </Text>
         </Pressable>
       </View>
